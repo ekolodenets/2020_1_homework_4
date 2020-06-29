@@ -19,9 +19,41 @@ likes("Alex", "Jacob", "Mark", "Max") -> "Alex, Jacob and 2 others like this"
 class MyClass:
 
     def likes(self, var: str) -> str:
-        result = ''
+        from langdetect import detect
+        lst = []
 
-        return result
+        result = 'No one like this'
+
+        if len(var) > 0:
+            lang = detect(var)
+            var = var.replace(',', '')
+            lst = ' '.join(var.split())
+            lst = lst.split(" ")
+
+            # Paweł Krzysztof Yuzef Zofia Amelia        -> PL
+            # Ulrich Gertrud Ernst Wilhelm Friedrich    -> DE
+            # Марина Александр Евгений Андрей Сергей    -> RU
+
+            if len(lst) == 1:
+                lst = " ".join(x.strip('"') for x in lst) + ' likes this'
+            elif len(lst) == 2:
+                lst = " and ".join(x.strip('"') for x in lst) + ' like this'
+            elif len(lst) == 3:
+                lst = f'{lst[0]}, {lst[1]} and {lst[2]} like this'
+                lst = lst.replace('"', '')
+            elif len(lst) > 3:
+                lst = f'{lst[0]}, {lst[1]} and {len(lst) - 2} others like this'
+                lst = lst.replace('"', '')
+
+            if lang == "de":
+                lst = lst.replace('and', 'und').replace('others like this', 'hat es gefallen').replace('likes this', 'hat das gefallen').replace('like this', 'mögen das')
+            elif lang == "ru":
+                lst = lst.replace('and', 'и').replace('others like this', 'другим это понравилось').replace('likes this', 'это понравилось').replace('like this', 'это понравилось')
+            elif lang == "pl":
+                lst = lst.replace('and', 'i').replace('others like this', 'innym się spodobało').replace('likes this', 'się spodobało').replace('like this', 'spodobało się')
+
+            return lst
+        # return result
 
 
 
