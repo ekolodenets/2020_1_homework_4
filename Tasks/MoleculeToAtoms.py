@@ -19,7 +19,7 @@ class MyClass:
 
     def parse(self, var: str) -> dict:
         import re
-        result = {}
+        # result = {}
         dict = {}
 
         def simple_cutter(lst):
@@ -28,7 +28,7 @@ class MyClass:
                     try:
                         int(lst[1]) / int(lst[1])  # проверяем 2ое значение в списке или может делиться
                     except:
-                        lst.insert(1, "1")  # если не может, добавляем 1 вторым значением
+                        lst.insert(1, 1)  # если не может, добавляем 1 вторым значением
                         dict[lst[0]] = int(dict[lst[0]]) + int(lst[1])  # обновляем значение в словаре добавляя второе число
                         lst = lst[2:]  # удаляем два первых значеиня в списке
                     else:
@@ -43,17 +43,17 @@ class MyClass:
                 try:
                     int(lst[1]) / int(lst[1])
                 except:
-                    lst.insert(1, "1")
-                    dict[lst[0]] = lst[1]
+                    lst.insert(1, 1)
+                    dict[lst[0]] = int(lst[1])
                     lst = lst[2:]
                 else:
                     try:
                         int(lst[2]) / int(lst[2])
                     except:
-                        dict[lst[0]] = lst[1]
+                        dict[lst[0]] = int(lst[1])
                         lst = lst[2:]
                     else:
-                        dict[lst[0]] = lst[1] + lst[2]
+                        dict[lst[0]] = int(lst[1] + lst[2])
                         lst = lst[3:]
 
             return dict
@@ -196,8 +196,9 @@ if __name__ == '__main__':
     # Here we can make console input and check how function works
 
     # var = input('Input formula: ')
-    var = 'K4Fl4{G2[ON(Sn2)2]2H2}2Gy'
-    # Mg(OH)2   K4[ON(SO3)2]2
+    var = 'Golden3(Eye6)6'
+    # var = 'K4Fl4{G2[ON(Sn2)2]2H2}2Gy'
+    # var = 'K4[ON(SO3)2]2'
     result = MyClass().parse(var)
 
     print(result)
