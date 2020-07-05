@@ -48,7 +48,7 @@ class MyClass:
             if lang == "de":
                 lst = lst.replace('and', 'und').replace('others like this', 'hat es gefallen').replace('likes this', 'hat das gefallen').replace('like this', 'mögen das')
             elif lang == "ru":
-                lst = lst.replace('and', 'и').replace('others like this', 'другим это понравилось').replace('likes this', 'это понравилось').replace('like this', 'это понравилось')
+                lst = lst.replace('and', 'и').replace('others like this', 'лайкнули это').replace('likes this', 'это лайкнул(а)').replace('like this', 'лайкнули это')
             elif lang == "pl":
                 lst = lst.replace('and', 'i').replace('others like this', 'innym się spodobało').replace('likes this', 'się spodobało').replace('like this', 'spodobało się')
 
