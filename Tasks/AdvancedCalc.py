@@ -47,9 +47,9 @@ Advanced calculator. Author: [Student Name], Version: 1.0.0
 
 '''
 
-
+import re
 class MyClass:
-
+    print('код я взял -> https://habr.com/ru/post/273253/')
     def advanced_calc(self, expression):
 
         '''
@@ -57,8 +57,127 @@ class MyClass:
 
         :return:
         '''
+        # def sum(self, *args):
+        #     l1 = []
+        #     l2 = []
+        #     si = inp.index('+')
+        #     num = int(inp[si-1])+int(inp[si+1])
+        #     l1 = inp[0:si-1]
+        #     l1.append(num)
+        #     l2 = inp[si+2::]
+        #     l1 = l1+l2
+        #     return l1
+        #
+        # def minus(self, *args):
+        #     l1 = []
+        #     l2 = []
+        #     si = inp.index('-')
+        #     num = int(inp[si - 1]) - int(inp[si + 1])
+        #     l1 = inp[0:si - 1]
+        #     l1.append(num)
+        #     l2 = inp[si + 2::]
+        #     l1 = l1 + l2
+        #     return l1
+        #
+        # def mult(self, *args):
+        #     l1 = []
+        #     l2 = []
+        #     si = inp.index('*')
+        #     num = int(inp[si - 1]) * int(inp[si + 1])
+        #     l1 = inp[0:si - 1]
+        #     l1.append(num)
+        #     l2 = inp[si + 2::]
+        #     l1 = l1 + l2
+        #     return l1
+        #
+        # def div(self, *args):
+        #     l1 = []
+        #     l2 = []
+        #     si = inp.index('/')
+        #     num = int(inp[si - 1]) / int(inp[si + 1])
+        #     l1 = inp[0:si - 1]
+        #     l1.append(int(num))
+        #     l2 = inp[si + 2::]
+        #     l1 = l1 + l2
+        #     return l1
+        #
+        # inp = []
+        # if 'pi' in var: x = var.replace('pi', '3.14159265359')
+        #
+        # if "(" in var:  # проверяем на наличие скобок
+        #     print("есть скобки")
+        # else:
+        #     print("нет скобок")
+        #     for x in re.split(r'\s+', var):
+        #         inp.append(x)
+        #     print(inp)
+        #
+        #     while len(inp) > 2:
+        #
+        #         if '*' in inp:
+        #             new = mult(inp)
+        #             print(new)
+        #         elif '/' in inp:
+        #             new = div(inp)
+        #             print(new)
+        #         elif '+' in inp:
+        #             new = sum(inp)
+        #             print(new)
+        #         elif '-' in inp:
+        #             new = minus(inp)
+        #             print(new)
+        #         inp = new
+        #         for i in inp:
+        #             result = i    # мой ломаный код
+
+        OPERATORS = {'+': (1, lambda x, y: x + y), '-': (1, lambda x, y: x - y),
+                     '*': (2, lambda x, y: x * y), '/': (2, lambda x, y: x / y)}
 
 
+        def parse(expression):
+            number = ''
+            for s in expression:
+                if s in '1234567890.':
+                    number += s
+                elif number:
+                    yield float(number)
+                    number = ''
+                if s in OPERATORS or s in "()":
+                    yield s
+            if number:
+                yield float(number)
+
+        def shunting_yard(parsed_formula):
+            stack = []
+            for token in parsed_formula:
+                if token in OPERATORS:
+                    while stack and stack[-1] != "(" and OPERATORS[token][0] <= OPERATORS[stack[-1]][0]:
+                        yield stack.pop()
+                    stack.append(token)
+                elif token == ")":
+                    while stack:
+                        x = stack.pop()
+                        if x == "(":
+                            break
+                        yield x
+                elif token == "(":
+                    stack.append(token)
+                else:
+                    yield token
+            while stack:
+                yield stack.pop()
+
+        def calc(polish):
+            stack = []
+            for token in polish:
+                if token in OPERATORS:
+                    y, x = stack.pop(), stack.pop()
+                    stack.append(OPERATORS[token][1](x, y))
+                else:
+                    stack.append(token)
+            return stack[0]
+
+        return calc(shunting_yard(parse(expression)))
 
         return result  # here we return result
 
